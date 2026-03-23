@@ -14,9 +14,11 @@ service = Service("/data/data/com.termux/files/usr/bin/chromedriver")
 
 try:
     # Start browser
+    print("Starting browser...")
     driver = webdriver.Chrome(service=service, options=options)
 
     # Open a test page
+    print("Opening test page...")
     driver.get("https://www.google.com")
 
     # Print page title
