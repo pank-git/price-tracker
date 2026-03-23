@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
 import time
 
 # 1. Setup Firefox Options
@@ -16,6 +17,7 @@ def scrape_site(url):
     try:
         print(f"Launching Firefox to scrape: {url}")
         driver = webdriver.Firefox(service=service, options=options)
+        wait = WebDriverWait(driver, 60)
         
         # Navigate to the site
         driver.get(url)
