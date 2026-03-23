@@ -19,11 +19,15 @@ os.system("pkill -f firefox")
 # -----------------------------
 options = Options()
 options.headless = True  # run in background
+options.page_load_strategy = "eager"
 
 # Reduce resource usage
 options.set_preference("permissions.default.image", 2)  # disable images
 options.set_preference("dom.ipc.processCount", 1)       # single process
 options.set_preference("browser.shell.checkDefaultBrowser", False)
+options.set_preference("browser.cache.disk.enable", False)
+options.set_preference("browser.cache.memory.enable", False)
+options.set_preference("browser.sessionstore.resume_from_crash", False)
 
 # -----------------------------
 # 🚗 GECKODRIVER PATH
