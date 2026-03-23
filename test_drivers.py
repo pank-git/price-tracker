@@ -20,6 +20,8 @@ options = Options()
 # Set correct binary path (IMPORTANT)
 options.binary_location = "/data/data/com.termux/files/usr/bin/chromium-browser"
 
+options.page_load_strategy = "eager"
+
 # Stability flags (VERY IMPORTANT in Termux)
 options.add_argument("--headless=new")
 options.add_argument("--no-sandbox")
