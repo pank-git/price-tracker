@@ -53,7 +53,7 @@ try:
     # -----------------------------
     # 🌐 OPEN WEBSITE
     # -----------------------------
-    url = "https://www.google.com"
+    url = "http://www.yahoo.com"
     print(f"Opening: {url}")
 
     try:
