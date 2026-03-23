@@ -27,9 +27,11 @@ def get_final_price(url):
         wait = WebDriverWait(driver, 120)
                 
         driver.get(url)
+        time.sleep(3)
 
         title = driver.title
         prices["title"] = title
+        print(f"Page Title: {driver.title}")
 
         price_elem = wait.until(
             EC.visibility_of_element_located(
