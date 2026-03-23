@@ -40,7 +40,7 @@ def get_final_price(url):
         matches = re.findall(r".{0,50}719.{0,50}", html)
         
         for m in matches:
-        print(m)
+            print(m)
 
        
 
