@@ -10,10 +10,15 @@ import time
 geckodriver_path = "/data/data/com.termux/files/usr/bin/geckodriver"
 
 service = Service(geckodriver_path)
-options = webdriver.ChromeOptions()
-
 options = Options()
-# options.add_argument("--headless")  # Required for Termux/No-GUI environments
+options.add_argument("--headless")  # Required for Termux/No-GUI environments
+
+options.set_preference("general.useragent.override",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+
+options.set_preference("dom.webdriver.enabled", False)
+options.set_preference("useAutomationExtension", False)
 
 def get_final_price(url):
     prices = {}
