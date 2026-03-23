@@ -13,7 +13,7 @@ service = Service(geckodriver_path)
 options = webdriver.ChromeOptions()
 
 options = Options()
-options.add_argument("--headless")  # Required for Termux/No-GUI environments
+# options.add_argument("--headless")  # Required for Termux/No-GUI environments
 
 def get_final_price(url):
     prices = {}
