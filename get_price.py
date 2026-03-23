@@ -32,7 +32,7 @@ def get_final_price(url):
         wait = WebDriverWait(driver, 600)
                 
         driver.get(url)
-        time.sleep(3)
+        time.sleep(60)
 
         title = driver.title
         prices["title"] = title
