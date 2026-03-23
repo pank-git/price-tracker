@@ -1,95 +1,43 @@
-import os
-import time
 from selenium import webdriver
-from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.firefox.options import Options
-from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.service import Service
+import time
 
-# -----------------------------
-# 🧹 CLEAN UP OLD PROCESSES
-# -----------------------------
-os.system("pkill -f geckodriver")
-os.system("pkill -f firefox")
-
-# -----------------------------
-# ⚙️ FIREFOX OPTIONS (TERMUX SAFE)
-# -----------------------------
+# 1. Setup Firefox Options
 options = Options()
-options.headless = True  # run in background
-options.page_load_strategy = "eager"
+options.add_argument("--headless")  # Required for Termux/No-GUI environments
 
-# Reduce resource usage
-options.set_preference("permissions.default.image", 2)  # disable images
-options.set_preference("dom.ipc.processCount", 1)       # single process
-options.set_preference("browser.shell.checkDefaultBrowser", False)
-options.set_preference("browser.cache.disk.enable", False)
-options.set_preference("browser.cache.memory.enable", False)
-options.set_preference("browser.sessionstore.resume_from_crash", False)
-
-# -----------------------------
-# 🚗 GECKODRIVER PATH
-# -----------------------------
+# 2. Define the Service (Points to the geckodriver installed by pkg)
+# In Termux, geckodriver is usually at /data/data/com.termux/files/usr/bin/geckodriver
 service = Service("/data/data/com.termux/files/usr/bin/geckodriver")
 
-# -----------------------------
-# 🚀 START DRIVER
-# -----------------------------
-try:
-    driver = webdriver.Firefox(service=service, options=options)
-
-    # Timeouts
-    driver.set_page_load_timeout(30)
-    driver.set_script_timeout(30)
-
-    print("✅ Firefox driver started successfully")
-
-    # -----------------------------
-    # 🌐 OPEN WEBSITE
-    # -----------------------------
-    url = "http://www.yahoo.com"
-    print(f"Opening: {url}")
-
+def scrape_site(url):
+    driver = None
     try:
+        print(f"Launching Firefox to scrape: {url}")
+        driver = webdriver.Firefox(service=service, options=options)
+        
+        # Navigate to the site
         driver.get(url)
-    except TimeoutException:
-        print("⚠️ Page load timed out, continuing...")
+        
+        # Give the page time to load JavaScript (if necessary)
+        time.sleep(3)
+        
+        # Example: Get the page title
+        print(f"Page Title: {driver.title}")
+        
+        # Example: Extract all text from <h1> tags
+        h1_elements = driver.find_elements("tag name", "h1")
+        for idx, tag in enumerate(h1_elements):
+            print(f"Heading {idx+1}: {tag.text}")
 
-    # Wait for <body> to be ready
-    try:
-        WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.TAG_NAME, "body"))
-        )
-    except:
-        print("⚠️ Element wait skipped")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        if driver:
+            driver.quit()
+            print("Browser closed.")
 
-    # -----------------------------
-    # 📄 SCRAPE DATA
-    # -----------------------------
-    print("Page title:", driver.title)
-
-    links = driver.find_elements(By.TAG_NAME, "a")
-    print(f"Found {len(links)} links")
-
-    for link in links[:5]:  # print first 5 links
-        print(link.text, "->", link.get_attribute("href"))
-
-# -----------------------------
-# ❌ ERROR HANDLING
-# -----------------------------
-except Exception as e:
-    print("❌ ERROR:", e)
-
-# -----------------------------
-# 🛑 CLEAN EXIT
-# -----------------------------
-finally:
-    try:
-        driver.quit()
-        print("🛑 Firefox driver closed")
-    except:
-        pass
-    os.system("pkill -f geckodriver")
-    os.system("pkill -f firefox")
+if __name__ == "__main__":
+    target_url = "https://www.google.com"  # Replace with your target
+    scrape_site(target_url)
