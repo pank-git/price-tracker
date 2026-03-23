@@ -37,7 +37,8 @@ def get_final_price(url):
 
         html = driver.page_source
         
-        matches = re.findall(r".{0,50}719.{0,50}", html)
+        # matches = re.findall(r".{0,50}719.{0,50}", html)
+        matches = re.findall(r'class="([^"]*salePrice[^"]*)"', html)
         
         for m in matches:
             print(m)
