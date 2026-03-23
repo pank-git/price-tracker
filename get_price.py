@@ -24,7 +24,7 @@ def get_final_price(url):
     try:
         print(f"Launching Firefox to scrape: {url}")
         driver = webdriver.Firefox(service=service, options=options)
-        wait = WebDriverWait(driver, 30)
+        wait = WebDriverWait(driver, 60)
                 
         driver.get(url)
 
