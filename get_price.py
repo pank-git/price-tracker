@@ -2,6 +2,7 @@ import re
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
 import time
 
 geckodriver_path = "/data/data/com.termux/files/usr/bin/geckodriver"
@@ -21,6 +22,7 @@ def get_final_price(url):
     try:
         print(f"Launching Firefox to scrape: {url}")
         driver = webdriver.Firefox(service=service, options=options)
+        wait = WebDriverWait(driver, 30)
                 
         driver.get(url)
 
