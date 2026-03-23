@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.options import Options
 
 # Configure Chrome options
 options = Options()
-options.binary_location = "/data/data/com.termux/files/usr/bin/chromium"
+options.binary_location = "/data/data/com.termux/files/usr/bin/chromium-browser"
 options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
